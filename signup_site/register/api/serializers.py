@@ -16,6 +16,14 @@ class UserCreateSerializer(ModelSerializer):
             ]
         extra_kwargs ={'password':{'write_only':True}
         }
+    def validate(self, data):
+        email = data['email']
+        user_queryset = User.objects.filter(email = email)
+        if user_queryset.exists():
+            raise ValidationError('This email already exists')
+        return data
+
+
     def validate_email(self, value):
         data = self.get_initial()
         email1 = data.get('email2')
