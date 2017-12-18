@@ -51,3 +51,11 @@ class UserCreateSerializer(ModelSerializer):
         user_obj.set_password(password)
         user_obj.save()
         return validated_data
+
+class UserListSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+        'username',
+        'email',
+        ]
