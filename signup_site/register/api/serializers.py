@@ -62,7 +62,7 @@ class UserListSerializer(ModelSerializer):
 
 class UserLoginSerializer(ModelSerializer):
     token = CharField(allow_blank=True, read_only=True)
-    username = CharField(label='User Name..', max_lengh=30)
+    username = CharField()
     class Meta:
         model = User
         fields = [
