@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework.serializers import ModelSerializer, ValidationError, EmailField
+from rest_framework.serializers import ModelSerializer, ValidationError, EmailField, CharField
 User = get_user_model()
 
 
@@ -59,3 +59,21 @@ class UserListSerializer(ModelSerializer):
         'username',
         'email',
         ]
+
+class UserLoginSerializer(ModelSerializer):
+    token = CharField(allow_blank=True, read_only=True)
+    username = CharField(label='User Name..', max_lengh=30)
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'password',
+            'token',
+            ]
+        extra_kwargs ={'password':{'write_only':True}
+        }
+    def validate(self, data):
+        # email = data['email']
+        # user_queryset = User.objects.filter(email = email)
+        # if user_queryset.exists():
+            raise ValidationError('This email already exists')
