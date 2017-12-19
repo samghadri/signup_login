@@ -81,8 +81,10 @@ class UserLoginSerializer(ModelSerializer):
         extra_kwargs ={'password':{'write_only':True}
         }
     def validate(self, data):
+        user_obj = None
         email = data.get('email')
         username = data.get('username')
+        password = data['password']
         if not username and not email:
             raise ValidationError('Wrong Email or username')
 
@@ -91,3 +93,14 @@ class UserLoginSerializer(ModelSerializer):
         Q(username=username)
         # Q allow us using OR or AND to get info from database. src info: https://stackoverflow.com/questions/6567831/how-to-perform-or-condition-in-django-queryset
         ).distinct() # In case if there is a doublicate just allows us to use one of them
+        user = user.exclude(email__isnull=True).exclude(email__iexact=True)
+        if user.exists() and user.count() == 1:
+            user_obj = user.first()
+        else:
+            raise ValidationError('The Username or mail is Not Valid')
+
+        if user_obj:
+            if not user_obj.check_password(password):
+                raise ValidationError('InCorrect password! try again.')
+        data['token'] = "Random Token"
+        return data
