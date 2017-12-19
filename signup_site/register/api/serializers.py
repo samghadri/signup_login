@@ -1,5 +1,11 @@
 from django.contrib.auth import get_user_model
-from rest_framework.serializers import ModelSerializer, ValidationError, EmailField, CharField
+from rest_framework.serializers import (ModelSerializer,
+                                        ValidationError,
+                                        EmailField,
+                                        CharField)
+
+from django.db.models import Q
+
 User = get_user_model()
 
 
@@ -62,18 +68,26 @@ class UserListSerializer(ModelSerializer):
 
 class UserLoginSerializer(ModelSerializer):
     token = CharField(allow_blank=True, read_only=True)
-    username = CharField()
+    username = CharField(required=False, allow_blank =True)
+    email = EmailField(label = 'Email', required=False, allow_blank =True)
     class Meta:
         model = User
         fields = [
             'username',
+            'email',
             'password',
             'token',
             ]
         extra_kwargs ={'password':{'write_only':True}
         }
     def validate(self, data):
-        # email = data['email']
-        # user_queryset = User.objects.filter(email = email)
-        # if user_queryset.exists():
-            raise ValidationError('This email already exists')
+        email = data.get('email')
+        username = data.get('username')
+        if not username and not email:
+            raise ValidationError('Wrong Email or username')
+
+        user = User.objects.filter(
+        Q(email = email) |
+        Q(username=username)
+        # Q allow us using OR or AND to get info from database. src info: https://stackoverflow.com/questions/6567831/how-to-perform-or-condition-in-django-queryset
+        ).distinct() # In case if there is a doublicate just allows us to use one of them
