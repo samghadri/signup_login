@@ -20,6 +20,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'',include('register.urls', namespace='register')),
     url(r"", include("django.contrib.auth.urls")),
+    url(r'^posts/$',include('posts.urls', namespace='posts')),
     url(r'^api/register/',include('register.api.urls', namespace='user-api')),
     url(r'^admin/', admin.site.urls),
 ]

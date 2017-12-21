@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'bootstrap4',
     'register',
+    'posts',
 
 
 
