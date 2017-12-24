@@ -1,0 +1,14 @@
+{% extends "posts/post_base.html" %}
+{% load bootstrap4 %}
+{% block post_content %}
+<div class="container">
+  <div class="jumbotron">
+<form class="" action="{% url 'posts:create' %}" method="POST">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <input type="submit" class="btn btn-success btn-large" value="Post">
+</form>
+</div>
+
+</div>
+{% endblock %}
