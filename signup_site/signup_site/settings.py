@@ -6,10 +6,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+
 def create_key():
     SECRET_KEY_DIR = os.path.dirname(__file__)
     SECRET_KEY_FILEPATH = os.path.join(SECRET_KEY_DIR,'secret_key.py')
@@ -34,7 +32,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -47,6 +44,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'register',
     'posts',
+    'groups',
 
 
 

@@ -1,16 +1,15 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
-User = get_user_model
 from groups.models import Group
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 class Post(models.Model):
     user = models.ForeignKey(User, related_name='posts')
     title = models.CharField(max_length=50)
-    text = models.CharField()
-    created_date = mdoels.DateTimeField(auto_now=True)
+    text = models.CharField(max_length=1000)
+    created_date = models.DateTimeField(auto_now=True)
     group = models.ForeignKey(Group,related_name='groups',null=True,blank=True)
 
 
@@ -28,4 +27,4 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_date']
-        unique_together = ['username', 'title']
+        unique_together = ['user', 'title']
