@@ -5,8 +5,7 @@ app_name = 'groups'
 
 urlpatterns = [
     url(r'new/$',views.CreateGroupView.as_view(), name='create'),
-    url(r'single,(?P<slug>[\w]+)'),
-
-
+    url(r'posts/in/(?P<slug>[-\w]+)/$',views.SingleGroupView.as_view(), name='single'),
+    url(r'^$',views.ListGroupView.as_view(), name='all'),
 
 ]
