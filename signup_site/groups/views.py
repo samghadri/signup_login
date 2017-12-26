@@ -5,6 +5,7 @@ from django.db import IntegrityError
 from django.shortcuts import get_object_or_404
 from django.views import generic
 from groups.models import Group, GroupMember
+from django.contrib import messages
 # from . import models
 
 
@@ -49,12 +50,10 @@ class LeaveGroupView(LoginRequiredMixin, generic.RedirectView):
 
         try:
             membership = models.GroupMember.objects.filter(
-                user = self.request.user, group__slug=self.kwargs.get('slug'))
-            ).get()
+                user = self.request.user, group__slug=self.kwargs.get('slug')).get()
         except models.GroupMember.DoesNotExist:
             messages.warning(self.request, 'Sorry You are already Not a member!!')
 
         else:
             messages.success(self.request, 'You have successfully left the group')
         return super().get(request, *args, **kwargs)
-    
