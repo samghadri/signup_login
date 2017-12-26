@@ -7,13 +7,34 @@
 </div>
 <div class="content">
  {% if user in group.members.all %}
-  <a href="{% url 'groups:leave' slug=group.slug %}"></a>
+  <a href="{% url 'groups:leave' slug=group.slug %}" class='btn btn-warning btn-fill btn-lg'>
+    <span class='glyphicon glyphicon-remove-circle'>Leave Group</span>
+  </a>
   {% else %}
-  <a href="{% url 'groups:join' %}"></a>
+  <a href="{% url 'groups:join' slug=group.slug %}" class='btn btn-success btn-fill btn-lg'>
+    <span class='glyphicon glyphicon-ok-circle'> Join Group</span>
+  </a>
 
  {% endif %}
 
 </div>
+{% endblock %}
 
+{% block group_content %}
+<div class="col-md-8">
+{% if group.posts.count==0 %}
+<h1>Sorry this Group doesn't have any Post yet. Write a Post :)</h1>
+
+{% else %}
+{% for post in group.posts.all %}
+{% include "posts/_post.html" %}
+
+
+{% endfor %}
+
+{% endif %}
+
+
+</div>
 
 {% endblock %}
