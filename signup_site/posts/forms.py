@@ -1,9 +1,10 @@
 from django import forms
-from posts import models
+from . import models
 
 class PostForm(forms.ModelForm):
-    model = models.Post
-    fields =('title', 'text', 'group')
+    class Meta:
+        model = models.Post
+        fields = ['title', 'text', 'image', 'group']
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)

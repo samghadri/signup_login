@@ -10,6 +10,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, related_name='posts')
     title = models.CharField(max_length=50)
     text = models.TextField()
+    image = models.FileField(blank=True, null=True)
     created_date = models.DateTimeField(auto_now=True)
     group = models.ForeignKey(Group,related_name='groups',null=True,blank=True)
 

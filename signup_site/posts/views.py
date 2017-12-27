@@ -13,7 +13,7 @@ User = get_user_model()
 
 class PostListView(generic.ListView, SelectRelatedMixin):
     model = models.Post
-    select_related = ['user','group']
+    select_related = ['user','image','group']
 
 
 class UserPostView(generic.ListView):
@@ -38,7 +38,7 @@ class UserPostView(generic.ListView):
 
 class PostDetailView(generic.DetailView, SelectRelatedMixin):
     model = models.Post
-    select_related = ('user', 'group')
+    select_related = ('user','image', 'group')
 
 
     def get_queryset(self):
@@ -47,12 +47,13 @@ class PostDetailView(generic.DetailView, SelectRelatedMixin):
 
 
 class CreatePostView(LoginRequiredMixin,SelectRelatedMixin,generic.CreateView):
-
-    fields=('title','text','group')
     model = models.Post
+    form_class = forms.PostForm
+    # fields=('title','text', 'image', 'group')
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
+        image = form.cleaned_data['image']
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
@@ -60,7 +61,7 @@ class CreatePostView(LoginRequiredMixin,SelectRelatedMixin,generic.CreateView):
 
 class DeletePostView(LoginRequiredMixin,SelectRelatedMixin,generic.DeleteView):
     model = models.Post
-    select_related = ('user', 'group')
+    select_related = ('user', 'image','group')
     success_url = reverse_lazy('posts:all')
 
     def get_queryset(self):
