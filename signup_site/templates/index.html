@@ -1,5 +1,8 @@
 {% extends "base.html" %}
+{%load staticfiles %}
 {% block content %}
 <h1>welcome </h1>
+<h3>This is the Picture of Me </h3>
+<img src="{% static 'images/m1.jpg' %}" alt="Ops, it didnt work">
 
 {% endblock %}
